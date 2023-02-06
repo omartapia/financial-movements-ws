@@ -1,8 +1,11 @@
 package com.bcp.financial.movements.ws.model;
 
+import com.bcp.financial.movements.ws.enums.Genero;
 import lombok.Data;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,7 +19,9 @@ public class Persona {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String nombre;
-    private String genero;
+
+    @Enumerated(EnumType.STRING)
+    private Genero genero;
     private String edad;
     private String identificacion;
     private String direccion;
