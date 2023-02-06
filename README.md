@@ -1,4 +1,4 @@
-# Spring Boot MySQL Base Project
+# Spring Boot Movimientos api
 
 This application was developed to demonstrate Spring Boot with MySQL with simple API.
 
@@ -11,27 +11,31 @@ Technologies Used
 
 How to Run this application
 
-First change the **src/main/resources/application.properties** with your MySQL instance properties.
-
-Then,
-
-```shell
-$ ./gradlew bootRun
-```
-
-or create a build using following command,
+First generate a build
 
 ```shell
 $ ./gradlew clean build
 ```
 
-Then start the JAR file using java
+next, run with this command:
 
 ```shell
-$ java -jar build/libs/spring-boot-mysql-base-project-0.0.1-SNAPSHOT.jar
+$ docker-compose build
+$ docker-compose up
 ```
 
-### Related Articles
+To stop the api
 
-- [Docker Compose For Spring Boot with MySQL](https://javatodev.com/docker-compose-for-spring-boot-with-mysql/)
-- [Docker Compose For Spring Boot with MariaDB](https://javatodev.com/docker-compose-for-spring-boot-with-mariadb/)
+```shell
+$ docker-compose down
+```
+
+if you want remove all images
+
+```shell
+$ docker-compose down -rmi all
+```
+
+### Created by
+
+- Omar Santiago Tapia Hidalgo (omar.tapia.h@gmail.com)
