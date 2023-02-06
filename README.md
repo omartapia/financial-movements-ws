@@ -1,6 +1,5 @@
-# Spring Boot Movimientos api
+# Servicio rest de Movimiento de cuentas BDP
 
-This application was developed to demonstrate Spring Boot with MySQL with simple API.
 
 Technologies Used
 
@@ -9,18 +8,25 @@ Technologies Used
 - Lombok
 - MySQL
 
-How to Run this application
+## How to Run this application
 
-First generate a build
+First generate a build:
 
 ```shell
 $ ./gradlew clean build
+```
+or
+```shell
+$ gradle clean build
 ```
 
 next, run with this command:
 
 ```shell
 $ docker-compose build
+```
+
+```shell
 $ docker-compose up
 ```
 
@@ -36,6 +42,6 @@ if you want remove all images
 $ docker-compose down -rmi all
 ```
 
-### Created by
+### Complaints or doubts
 
 - Omar Santiago Tapia Hidalgo (omar.tapia.h@gmail.com)
