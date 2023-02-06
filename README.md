@@ -42,6 +42,8 @@ if you want remove all images
 $ docker-compose down -rmi all
 ```
 
+#### [Postman Collection](https://api.postman.com/collections/2873322-1523b0fe-3db9-4408-a22f-65c56326692d?access_key=PMAT-01GRJHKWQR4MWE6XMW842Y1621)
+
 ### Complaints or doubts
 
 - Omar Santiago Tapia Hidalgo (omar.tapia.h@gmail.com)
