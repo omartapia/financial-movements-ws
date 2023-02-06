@@ -1,27 +1,33 @@
 package com.bcp.financial.movements.ws.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "cliente")
 @Data
-public class Cliente {
+@EqualsAndHashCode(callSuper = false)
+public class Cliente extends Persona {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long clienteId;
+    private long id;
+    @Column(length = 300)
     private String contrasena;
 
     private Boolean estado;
-    @OneToOne
-    @JoinColumn(name = "persona_id")
-    private Persona persona;
 
+    public Cliente() {
+
+    }
+
+    public Cliente(String identificacion) {
+        this.identificacion = identificacion;
+    }
 }

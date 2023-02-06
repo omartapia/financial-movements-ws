@@ -2,10 +2,12 @@ package com.bcp.financial.movements.ws.controllers;
 
 import com.bcp.financial.movements.ws.config.Config;
 import com.bcp.financial.movements.ws.model.Cliente;
+import com.bcp.financial.movements.ws.model.vo.ClienteVo;
 import com.bcp.financial.movements.ws.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,11 +25,12 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping(Config.CLIENTES)
+@ControllerAdvice
 public class ClienteController {
     @Autowired
     private ClienteService service;
 
-    @GetMapping
+    @GetMapping(Config.ADMIN)
     public ResponseEntity<List<Cliente>> findAll() {
         try {
             List<Cliente> clientes = service.findAll();
@@ -40,7 +43,7 @@ public class ClienteController {
         }
     }
 
-    @GetMapping(Config.ID)
+    @GetMapping(Config.ADMIN + Config.ID)
     public ResponseEntity<Cliente> getById(@PathVariable("id") long id) {
         Optional<Cliente> cliente = service.findById(id);
         return cliente.map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
@@ -48,7 +51,7 @@ public class ClienteController {
 
     }
 
-    @PostMapping
+    @PostMapping(Config.ADMIN)
     @ResponseStatus(value = HttpStatus.CREATED)
     public ResponseEntity<Cliente> save(@RequestBody Cliente cliente) {
         try {
@@ -59,16 +62,28 @@ public class ClienteController {
         }
     }
 
-    @PutMapping(Config.ID)
+    @PutMapping(Config.ADMIN + Config.ID)
     public ResponseEntity<Cliente> update(@RequestBody Cliente cliente, @PathVariable("id") Long id) {
         Optional<Cliente> _cliente = service.update(cliente, id);
         return _cliente.map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @DeleteMapping(Config.ID)
+    @DeleteMapping(Config.ADMIN + Config.ID)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") Long id) {
          service.delete(id);
+    }
+
+
+    @PostMapping(Config.ADD)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public ResponseEntity<ClienteVo> saveVo(@RequestBody ClienteVo cliente) {
+        try {
+            ClienteVo _cliente = service.save(cliente);
+            return new ResponseEntity<>(_cliente, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

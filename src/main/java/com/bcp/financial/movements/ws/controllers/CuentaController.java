@@ -2,9 +2,8 @@ package com.bcp.financial.movements.ws.controllers;
 
 import com.bcp.financial.movements.ws.config.Config;
 import com.bcp.financial.movements.ws.model.Cuenta;
-import com.bcp.financial.movements.ws.model.Persona;
+import com.bcp.financial.movements.ws.model.vo.CuentaVo;
 import com.bcp.financial.movements.ws.services.CuentaService;
-import com.bcp.financial.movements.ws.services.PersonaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,20 +28,16 @@ public class CuentaController {
     @Autowired
     private CuentaService service;
 
-    @GetMapping
+    @GetMapping(Config.ADMIN)
     public ResponseEntity<List<Cuenta>> findAll() {
-        try {
-            List<Cuenta> cuentas = service.findAll();
-            if (cuentas.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-            return new ResponseEntity<>(cuentas, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        List<Cuenta> cuentas = service.findAll();
+        if (cuentas.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+        return new ResponseEntity<>(cuentas, HttpStatus.OK);
     }
 
-    @GetMapping(Config.ID)
+    @GetMapping(Config.ADMIN + Config.ID)
     public ResponseEntity<Cuenta> getById(@PathVariable("id") long id) {
         Optional<Cuenta> _cuenta = service.findById(id);
         return _cuenta.map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
@@ -50,27 +45,30 @@ public class CuentaController {
 
     }
 
-    @PostMapping
+    @PostMapping(Config.ADMIN)
     @ResponseStatus(value = HttpStatus.CREATED)
     public ResponseEntity<Cuenta> save(@RequestBody Cuenta cuenta) {
-        try {
-            Cuenta _cuenta = service.save(cuenta);
-            return new ResponseEntity<>(_cuenta, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Cuenta _cuenta = service.save(cuenta);
+        return new ResponseEntity<>(_cuenta, HttpStatus.CREATED);
     }
 
-    @PutMapping(Config.ID)
+    @PutMapping(Config.ADMIN + Config.ID)
     public ResponseEntity<Cuenta> update(@RequestBody Cuenta cuenta, @PathVariable("id") Long id) {
         Optional<Cuenta> _cuenta = service.update(cuenta, id);
         return _cuenta.map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @DeleteMapping(Config.ID)
+    @DeleteMapping(Config.ADMIN + Config.ID)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") Long id) {
-         service.delete(id);
+        service.delete(id);
+    }
+
+    @PostMapping(Config.ADD)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public ResponseEntity<CuentaVo> saveVo(@RequestBody CuentaVo cuentaVo) {
+        CuentaVo _cuentaVo = service.save(cuentaVo);
+        return new ResponseEntity<>(_cuentaVo, HttpStatus.CREATED);
     }
 }

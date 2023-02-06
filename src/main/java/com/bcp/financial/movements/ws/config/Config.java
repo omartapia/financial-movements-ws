@@ -18,6 +18,8 @@ public class Config {
     public static final String MOVIMIENTOS = "/movimientos";
     public static final String CLIENTES = "/clientes";
     public static final String ID = "/{id}";
+    public static final String ADD = "/add";
+    public static final String ADMIN = "/admin";
 
     @Bean
     public DataSourceInitializer dataSourceInitializer(@Qualifier("dataSource") final DataSource dataSource) {
