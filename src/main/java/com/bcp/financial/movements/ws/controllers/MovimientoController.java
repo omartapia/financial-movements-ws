@@ -2,6 +2,8 @@ package com.bcp.financial.movements.ws.controllers;
 
 import com.bcp.financial.movements.ws.config.Config;
 import com.bcp.financial.movements.ws.model.Movimiento;
+import com.bcp.financial.movements.ws.model.vo.CuentaVo;
+import com.bcp.financial.movements.ws.model.vo.MovimientoVo;
 import com.bcp.financial.movements.ws.services.MovimientoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +29,7 @@ public class MovimientoController {
     @Autowired
     private MovimientoService service;
 
-    @GetMapping
+    @GetMapping(Config.ADMIN)
     public ResponseEntity<List<Movimiento>> findAll() {
         try {
             List<Movimiento> movimientos = service.findAll();
@@ -40,7 +42,7 @@ public class MovimientoController {
         }
     }
 
-    @GetMapping(Config.ID)
+    @GetMapping(Config.ADMIN + Config.ID)
     public ResponseEntity<Movimiento> getById(@PathVariable("id") long id) {
         Optional<Movimiento> _movimiento = service.findById(id);
         return _movimiento.map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
@@ -48,7 +50,7 @@ public class MovimientoController {
 
     }
 
-    @PostMapping
+    @PostMapping(Config.ADMIN)
     @ResponseStatus(value = HttpStatus.CREATED)
     public ResponseEntity<Movimiento> save(@RequestBody Movimiento movimiento) {
         try {
@@ -59,16 +61,23 @@ public class MovimientoController {
         }
     }
 
-    @PutMapping(Config.ID)
+    @PutMapping(Config.ADMIN + Config.ID)
     public ResponseEntity<Movimiento> update(@RequestBody Movimiento movimiento, @PathVariable("id") Long id) {
         Optional<Movimiento> _movimiento = service.update(movimiento, id);
         return _movimiento.map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @DeleteMapping(Config.ID)
+    @DeleteMapping(Config.ADMIN + Config.ID)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void deletee(@PathVariable("id") Long id) {
+    public void delete(@PathVariable("id") Long id) {
          service.delete(id);
+    }
+
+    @PostMapping(Config.ADD)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public ResponseEntity<MovimientoVo> saveVo(@RequestBody MovimientoVo movimientoVo) {
+        MovimientoVo _movimientoVo = service.save(movimientoVo);
+        return new ResponseEntity<>(_movimientoVo, HttpStatus.CREATED);
     }
 }

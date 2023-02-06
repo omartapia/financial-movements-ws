@@ -3,27 +3,27 @@ package com.bcp.financial.movements.ws.model;
 import com.bcp.financial.movements.ws.enums.Genero;
 import lombok.Data;
 
-import javax.persistence.Entity;
+import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.MappedSuperclass;
+import java.io.Serializable;
 
-@Entity
-@Table(name = "persona")
+
+@MappedSuperclass
 @Data
-public class Persona {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String nombre;
+public class Persona implements Serializable {
+    @Column(length = 100)
+    protected String nombres;
 
     @Enumerated(EnumType.STRING)
-    private Genero genero;
-    private String edad;
-    private String identificacion;
-    private String direccion;
-    private String telefono;
+    @Column(length = 5)
+    protected Genero genero;
+    protected Integer edad;
+    @Column(length = 20)
+    protected String identificacion;
+    @Column(length = 500)
+    protected String direccion;
+    @Column(length = 20)
+    protected String telefono;
 }
