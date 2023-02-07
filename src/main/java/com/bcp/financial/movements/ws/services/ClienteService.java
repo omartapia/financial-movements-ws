@@ -14,6 +14,10 @@ public class ClienteService {
     @Autowired
     private IClienteRepository repository;
 
+    public ClienteService(@Autowired IClienteRepository repository) {
+        this.repository = repository;
+    }
+
     public List<Cliente> findAll() {
         return (List<Cliente>) repository.findAll();
     }
