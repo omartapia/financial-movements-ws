@@ -13,11 +13,11 @@ Technologies Used
 First generate a build:
 
 ```shell
-$ ./gradlew clean build
+$ ./gradlew clean build -x test
 ```
 or
 ```shell
-$ gradle clean build
+$ gradle clean build -x test
 ```
 
 next, run with this command:
